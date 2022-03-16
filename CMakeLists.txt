@@ -37,4 +37,6 @@ include_directories(
 )
 
 add_executable(waypoint_list_server src/main.cpp)
+add_executable(waypoint_vizualize src/visualize.cpp)
 target_link_libraries(waypoint_list_server ${catkin_LIBRARIES})
+target_link_libraries(waypoint_vizualize ${catkin_LIBRARIES})

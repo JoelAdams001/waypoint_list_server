@@ -13,22 +13,22 @@
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "waypoint_viz");
-
   ros::NodeHandle n;
   ros::Publisher viz_pub = n.advertise<geometry_msgs::PoseArray>("waypoints", 10);
   ros::ServiceClient client = n.serviceClient<waypoint_list_server::ReadWaypointList>("waypoint_list_server");
   waypoint_list_server::ReadWaypointList srv;
   srv.request.filename = "waypoints.txt";
+  geometry_msgs::PoseArray list;
   if (client.call(srv))
     {
-        geometry_msgs::PoseArray list = srv.response.list;
-        viz_pub.publish(list);
+        list = srv.response.list;
     }
     else
     {
         ROS_ERROR("Failed to call service waypoint_list_server");
         return 1;
     }
+  viz_pub.publish(list);
   ros::spin();
   return 0;
 }
